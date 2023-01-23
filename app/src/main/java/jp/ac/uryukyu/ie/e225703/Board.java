@@ -9,10 +9,12 @@ public class Board implements CommonConst{
     final static String BLACK = "⚫️";
     final static String WHITE = "⚪️";
     final static String EMPTY = "🟩";
-    ArrayList<Integer> komaList;
+    ArrayList<int[]> komaList;
 
     static String stone;
     static String rev_stone;
+
+    boolean isput = false;
 
     public Board() {
         initialize();
@@ -82,5 +84,82 @@ public class Board implements CommonConst{
             game = false;
         }
     }
+
+    public void setStone(int x, int y) {
+        x = x-1;
+        y = y-1;
+
+        canPut(x, y);
+    }
+
+
+
+    public void canPut(int x, int y) {
+        this.isput = false;
+        while(isput == false){
+            if (x > 7 || y > 7) {
+                System.out.println("その位置に駒はおけません");
+                break;
+            }
+            if (board[y][x].equals(EMPTY)) {
+                check(x, y);
+                if (komaList.size() != 0 ){
+                    turnStone(x, y);
+                } else {
+                    System.out.println("その位置に駒はおけません");
+                    break;
+                }
+                // 次うつ駒の設定
+                String next_rev_storn = stone;
+                stone = rev_stone;
+                rev_stone = next_rev_storn;
+            
+                // オセロ版の描写
+                display();
+
+                this.isput = true;
+        
+            } else {
+                // 既に駒がおいてある位置を指定した場合
+                System.out.println("その位置に駒はおけません");
+                break;
+            }
+        }
+    }
+
+    public void check(int x, int y) {
+        canPutUp(x, y);
+    }
+
+    public void turnStone(int x, int y) {
+            board[y][x] = stone;
+            for(int[] coordinate : komaList) {
+                int row = coordinate[0];
+                int column = coordinate[1];
+                board[row][column] = stone;
+            }
+            this.komaList = new ArrayList<>();
+    }
+
+    public void canPutUp(int x, int y) {
+        if(y > 1) {
+            String next = board[y-1][x];
+
+            if (next.equals(rev_stone)) {
+                for (int i = 2; true; i++) {
+                    if ((y-i < 0) || (board[y-i][x].equals(EMPTY))) {
+                        break;
+                    } else if (board[y-i][x].equals(stone)) {
+                        for (int t=1; t<i; t++) {
+                            int[] coordinate = {y-t, x};
+                            this.komaList.add(coordinate);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
+    
+
     

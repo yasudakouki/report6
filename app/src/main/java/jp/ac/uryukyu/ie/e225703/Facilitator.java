@@ -15,11 +15,19 @@ public class Facilitator {
         board.initialize();
         board.display();
 
-        
-    }
-
-    public void choose() {
         Scanner s = new Scanner(System.in);
 
+        while(board.game){
+
+            System.out.print("ヨコの座標を入力してください:");
+            int x = s.nextInt();
+
+            System.out.print("タテの座標を入力してください:");
+            int y = s.nextInt();
+
+            board.setStone(x, y);
+        }
+
+        s.close();
     }
 }
