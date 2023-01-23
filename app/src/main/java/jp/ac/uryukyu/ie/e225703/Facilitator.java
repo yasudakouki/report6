@@ -17,7 +17,7 @@ public class Facilitator {
 
         Scanner s = new Scanner(System.in);
 
-        while(board.game){
+       while(board.game){
 
             System.out.print("ヨコの座標を入力してください:");
             int x = s.nextInt();

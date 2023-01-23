@@ -70,7 +70,7 @@ public class Board implements CommonConst{
       
             }
             System.out.println();
-            System.out.println(" －-－-－-－-－-－-－-－ ");   
+            System.out.println("   －-－-－-－-－-－-－-－ ");   
             x++;
         }
         System.out.println(BLACK + ":" + cnt_black);
@@ -129,6 +129,13 @@ public class Board implements CommonConst{
 
     public void check(int x, int y) {
         canPutUp(x, y);
+        canPutUpRight(x, y);
+        canPutRight(x, y);
+        canPutDownRight(x, y);
+        canPutDown(x, y);
+        canPutDownLeft(x, y);
+        canPutLeft(x, y);
+        canPutUpLeft(x, y);
     }
 
     public void turnStone(int x, int y) {
@@ -157,6 +164,139 @@ public class Board implements CommonConst{
                     }
                 }
             }
+        }
+    }
+
+    public void canPutUpRight(int x, int y) {
+        if ((y>1) && (x<6)) {
+            String next = board[y-1][x+1];
+            
+            if (next.equals(rev_stone)) {
+                for (int i = 2; true; i++) {
+                    if ((x+i > 7) || (y-i < 0) || (board[y-i][x+i].equals(EMPTY))) {
+                        break;
+                    } else if (board[y-i][x+i].equals(stone)) {
+                        for (int t=1; t<i; t++) {
+                            int[] coordinate = {y-t, x+t};
+                            this.komaList.add(coordinate);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void canPutRight(int x, int y) {
+        if (x < 6) {
+            String next = board[y][x+1];
+
+            if (next.equals(rev_stone)) {
+                for (int i = 2; true; i++) {
+                    if ((x+i > 7) || ((board[y][x+i].equals(EMPTY)))) {
+                        break;
+                    } else if (board[y][x+i].equals(stone)) {
+                        for (int t=1; t<i; t++) {
+                            int[] coordinate = {y, x+t};
+                            this.komaList.add(coordinate);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void canPutDownRight(int x, int y) {
+        if ((y < 6) && (x < 6)) {
+            String next = board[y+1][x+1];
+
+            if (next.equals(rev_stone)) {
+                for (int i = 2; true; i++) {
+                    if ((x+i > 7) || (y+i > 7) || (board[y+i][x+i].equals(EMPTY))) {
+                        break;
+                    } else if (board[y+i][x+i].equals(stone)) {
+                        for (int t=1; t<i; t++) {
+                            int[] coordinate = {y+t, x+t};
+                            this.komaList.add(coordinate);
+                        }
+                    }
+                }
+            } 
+        }
+    }
+
+    public void canPutDown(int x, int y) {
+        if (y < 6) {
+            String next = board[y+1][x];
+
+            if (next.equals(rev_stone)) {
+                for (int i = 2; true; i++) {
+                    if ((y+i > 7) || ((board[y+i][x].equals(EMPTY)))) {
+                        break;
+                    } else if (board[y+i][x].equals(stone)) {
+                        for (int t=1; t<i; t++) {
+                            int[] coordinate = {y+t, x};
+                            this.komaList.add(coordinate);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void canPutDownLeft(int x, int y) {
+        if ((y < 6) && (x > 1)) {
+            String next = board[y+1][x-1];
+
+            if (next.equals(rev_stone)) {
+                for (int i = 2; true; i++) {
+                    if ((x-i < 0) || (y+i > 7) || (board[y+i][x-i].equals(EMPTY))) {
+                        break;
+                    } else if (board[y+i][x-i].equals(stone)) {
+                        for (int t=1; t<i; t++) {
+                            int[] coordinate = {y+t, x-t};
+                            this.komaList.add(coordinate);
+                        }
+                    }
+                }
+            } 
+        }
+    }
+
+    public void canPutLeft(int x, int y) {
+        if (x > 1) {
+            String next = board[y][x-1];
+
+            if (next.equals(rev_stone)) {
+                for (int i = 2; true; i++) {
+                    if ((x-i < 0) || ((board[y][x-i].equals(EMPTY)))) {
+                        break;
+                    } else if (board[y][x-i].equals(stone)) {
+                        for (int t=1; t<i; t++) {
+                            int[] coordinate = {y, x-t};
+                            this.komaList.add(coordinate);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void canPutUpLeft(int x, int y) {
+        if ((y > 1) && (x > 1)) {
+            String next = board[y-1][x-1];
+
+            if (next.equals(rev_stone)) {
+                for (int i = 2; true; i++) {
+                    if ((x-i < 0) || (y-i < 0) || (board[y-i][x-i].equals(EMPTY))) {
+                        break;
+                    } else if (board[y-i][x-i].equals(stone)) {
+                        for (int t=1; t<i; t++) {
+                            int[] coordinate = {y-t, x-t};
+                            this.komaList.add(coordinate);
+                        }
+                    }
+                }
+            } 
         }
     }
 }
