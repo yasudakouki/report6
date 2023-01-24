@@ -5,4 +5,5 @@ public interface CommonConst {
     final static String BLACK = "⚫️";
     final static String WHITE = "⚪️";
     final static String EMPTY = "🟩";
+    final static int BOARD_SIZE = 8;
 }

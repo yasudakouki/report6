@@ -3,18 +3,15 @@ import java.util.ArrayList;
 
 public class Board implements CommonConst{
     //ゲーム実行中フラグ
-    public boolean game = true;
+    private boolean game = true;
     
     String[][] board = new String[8][8];
-    final static String BLACK = "⚫️";
-    final static String WHITE = "⚪️";
-    final static String EMPTY = "🟩";
     ArrayList<int[]> komaList;
 
-    static String stone;
-    static String rev_stone;
+    String stone;
+    String rev_stone;
 
-    boolean isput = false;
+    private boolean isput = false;
 
     public Board() {
         initialize();
@@ -22,8 +19,8 @@ public class Board implements CommonConst{
     }
 
     public void initialize() {
-        for (int i=0; i<8; i++) {
-            for (int j=0; j<8; j++) {
+        for (int i=0; i<BOARD_SIZE; i++) {
+            for (int j=0; j<BOARD_SIZE; j++) {
                 board[i][j] = EMPTY;
             }
         }
@@ -38,7 +35,7 @@ public class Board implements CommonConst{
         rev_stone = WHITE;
 
         //ゲーム実行中フラグ
-        game = true;
+        setGame(true);;
     }
 
     public void display() {
@@ -57,7 +54,7 @@ public class Board implements CommonConst{
             for (String column : row) {
       
                 System.out.print(column);
-                System.out.print(" ");
+                System.out.print("|");
       
                 //空いている座標があるか、各駒数の集計
                 if (column.equals(EMPTY)) {
@@ -80,8 +77,15 @@ public class Board implements CommonConst{
         if (existempty) {
             System.out.println(stone + "のターンです");
         } else {
-            System.out.println(stone + "ゲーム終了！");
-            game = false;
+            System.out.println("ゲーム終了！");
+            if (cnt_black > cnt_white) {
+                System.out.println(BLACK + "の勝ち！");
+            } else if (cnt_black < cnt_white) {
+                System.out.println(WHITE + "の勝ち！");
+            } else if (cnt_black == cnt_white) {
+                System.out.println("引き分け！");
+            }
+            setGame(false);;
         }
     }
 
@@ -91,8 +95,6 @@ public class Board implements CommonConst{
 
         canPut(x, y);
     }
-
-
 
     public void canPut(int x, int y) {
         this.isput = false;
@@ -298,6 +300,13 @@ public class Board implements CommonConst{
                 }
             } 
         }
+    }
+
+    public void setGame(boolean _game) {
+        this.game = _game;
+    }
+    public boolean getGame() {
+        return this.game;
     }
 }
     
