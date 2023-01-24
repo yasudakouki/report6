@@ -1,23 +1,53 @@
 package jp.ac.uryukyu.ie.e225703;
 import java.util.ArrayList;
 
+/**
+ * オセロボードクラス。
+ * 
+ * ボードを用意すること、オセロの駒を置くことが可能
+ */
 public class Board implements CommonConst{
-    //ゲーム実行中フラグ
+    /** 
+     * ゲームが続けられるか判断するためのboolean。trueなら継続、falseなら終了。
+     */
     private boolean game = true;
-    
+
+    /** 
+     * 各マスの状態を保存するリスト 
+     */
     String[][] board = new String[8][8];
+
+    /**
+     * 挟まれた駒を保存するリスト。
+     */
     ArrayList<int[]> komaList;
 
+    /**
+     * 現在の駒の色を保存する。
+     */
     String stone;
+
+    /**
+     * 次の駒の色を保存する。
+     */
     String rev_stone;
 
+    /**
+     * 駒を置いたのかを判断するboolean。置いたらtrueになる。
+     */
     private boolean isput = false;
 
+    /**
+     * コンストラクタ。ボードを初期化する。
+     */
     public Board() {
         initialize();
         this.komaList = new ArrayList<>();
     }
 
+    /**
+     * 初期化用メソッド
+     */
     public void initialize() {
         for (int i=0; i<BOARD_SIZE; i++) {
             for (int j=0; j<BOARD_SIZE; j++) {
@@ -30,14 +60,15 @@ public class Board implements CommonConst{
         board[4][3] = BLACK;
         board[4][4] = WHITE;
 
-        //次うつ駒の色を指定
         stone = BLACK;
         rev_stone = WHITE;
 
-        //ゲーム実行中フラグ
         setGame(true);;
     }
 
+    /**
+     * オセロボードをターミナル上に表示する。
+     */
     public void display() {
         //まだ空いている座標があるか
         boolean existempty = false;
@@ -89,6 +120,11 @@ public class Board implements CommonConst{
         }
     }
 
+    /**
+     * 入力された座標のマスに駒を置くことを検討する。
+     * @param x オセロボードの横の座標
+     * @param y オセロボードの縦の座標
+     */
     public void setStone(int x, int y) {
         x = x-1;
         y = y-1;
@@ -96,6 +132,11 @@ public class Board implements CommonConst{
         canPut(x, y);
     }
 
+    /**
+     * 指定された座標のマスに駒が置けるかどうか判断する。
+     * @param x オセロボードの横の座標
+     * @param y オセロボードの縦の座標
+     */
     public void canPut(int x, int y) {
         this.isput = false;
         while(isput == false){
@@ -111,24 +152,27 @@ public class Board implements CommonConst{
                     System.out.println("その位置に駒はおけません");
                     break;
                 }
-                // 次うつ駒の設定
+
                 String next_rev_storn = stone;
                 stone = rev_stone;
                 rev_stone = next_rev_storn;
             
-                // オセロ版の描写
                 display();
 
                 this.isput = true;
         
             } else {
-                // 既に駒がおいてある位置を指定した場合
                 System.out.println("その位置に駒はおけません");
                 break;
             }
         }
     }
 
+    /**
+     * 指定されたますの周囲(8方向)の状態を確認する。
+     * @param x オセロボードの横の座標
+     * @param y オセロボードの縦の座標
+     */
     public void check(int x, int y) {
         canPutUp(x, y);
         canPutUpRight(x, y);
@@ -140,6 +184,11 @@ public class Board implements CommonConst{
         canPutUpLeft(x, y);
     }
 
+    /**
+     * 指定されたマスでひっくり返すことができる駒を自分の駒にする。
+     * @param x オセロボードの横の座標
+     * @param y オセロボードの縦の座標
+     */
     public void turnStone(int x, int y) {
             board[y][x] = stone;
             for(int[] coordinate : komaList) {
@@ -150,6 +199,11 @@ public class Board implements CommonConst{
             this.komaList = new ArrayList<>();
     }
 
+    /**
+     * 指定されたますの上の駒の状態を確認する。
+     * @param x オセロボードの横の座標
+     * @param y オセロボードの横の座標
+     */
     public void canPutUp(int x, int y) {
         if(y > 1) {
             String next = board[y-1][x];
@@ -169,6 +223,11 @@ public class Board implements CommonConst{
         }
     }
 
+    /**
+     * 指定されたますの右上の駒の状態を確認する。
+     * @param x オセロボードの横の座標
+     * @param y オセロボードの横の座標
+     */
     public void canPutUpRight(int x, int y) {
         if ((y>1) && (x<6)) {
             String next = board[y-1][x+1];
@@ -188,6 +247,11 @@ public class Board implements CommonConst{
         }
     }
 
+    /**
+     * 指定されたますの右の駒の状態を確認する。
+     * @param x オセロボードの横の座標
+     * @param y オセロボードの横の座標
+     */
     public void canPutRight(int x, int y) {
         if (x < 6) {
             String next = board[y][x+1];
@@ -207,6 +271,11 @@ public class Board implements CommonConst{
         }
     }
 
+    /**
+     * 指定されたますの右下の駒の状態を確認する。
+     * @param x オセロボードの横の座標
+     * @param y オセロボードの横の座標
+     */
     public void canPutDownRight(int x, int y) {
         if ((y < 6) && (x < 6)) {
             String next = board[y+1][x+1];
@@ -226,6 +295,11 @@ public class Board implements CommonConst{
         }
     }
 
+    /**
+     * 指定されたますの下の駒の状態を確認する。
+     * @param x オセロボードの横の座標
+     * @param y オセロボードの横の座標
+     */
     public void canPutDown(int x, int y) {
         if (y < 6) {
             String next = board[y+1][x];
@@ -245,6 +319,11 @@ public class Board implements CommonConst{
         }
     }
 
+    /**
+     * 指定されたますの左下の駒の状態を確認する。
+     * @param x オセロボードの横の座標
+     * @param y オセロボードの横の座標
+     */
     public void canPutDownLeft(int x, int y) {
         if ((y < 6) && (x > 1)) {
             String next = board[y+1][x-1];
@@ -264,6 +343,11 @@ public class Board implements CommonConst{
         }
     }
 
+    /**
+     * 指定されたますの左の駒の状態を確認する。
+     * @param x オセロボードの横の座標
+     * @param y オセロボードの横の座標
+     */
     public void canPutLeft(int x, int y) {
         if (x > 1) {
             String next = board[y][x-1];
@@ -283,6 +367,11 @@ public class Board implements CommonConst{
         }
     }
 
+    /**
+     * 指定されたますの左上の駒の状態を確認する。
+     * @param x オセロボードの横の座標
+     * @param y オセロボードの横の座標
+     */
     public void canPutUpLeft(int x, int y) {
         if ((y > 1) && (x > 1)) {
             String next = board[y-1][x-1];
@@ -302,9 +391,16 @@ public class Board implements CommonConst{
         }
     }
 
+    /**
+     * ゲームの状態を設定するsetter
+     * @param _game ゲームの状態
+     */
     public void setGame(boolean _game) {
         this.game = _game;
     }
+    /**
+     * ゲームの状態を返すgetter
+     */
     public boolean getGame() {
         return this.game;
     }

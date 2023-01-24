@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * スタート画面のウィンドウ(GUI)を表示するクラス(未実装)。
+ */
 public class StartView extends JFrame{
     
     private StartModel model;

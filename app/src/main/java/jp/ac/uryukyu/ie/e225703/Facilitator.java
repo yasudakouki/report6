@@ -1,14 +1,23 @@
 package jp.ac.uryukyu.ie.e225703;
 import java.util.Scanner;
 
+/**
+ * ゲームを進行するためのクラス
+ */
 public class Facilitator {
     Board board;
     Computer computer;
     
+    /**
+     * コンストラクタ。ボードとコンピュータを用意。
+     */
     public Facilitator() {
         this.board = new Board();
         this.computer = new Computer();
     }
+    /**
+     * 対人専用で遊ぶ時のためのメソッド。
+     */
     public void start() {
         board.initialize();
         board.display();
@@ -28,8 +37,10 @@ public class Facilitator {
 
         s.close();
     }
-
-    public void  vsComputer() {
+    /**
+     * コンピュータと遊ぶ時のためのメソッド
+     */
+    public void vsComputer() {
         board.initialize();
         board.display();
 

@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * スタート画面を制御するクラス(未実装)。
+ */
 public class StartController implements ActionListener, CommonConst{
     StartView view;
     StartModel model;

@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * オセロボードのウィンドウ(GUI)を表示するクラス(未実装)。
+ */
 public class BoardView extends JFrame{
     public BoardView() {
         
